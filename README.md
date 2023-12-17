@@ -1,3 +1,3 @@
 # robots
-Fakhretdinov Radmir 11-108
+Fakhretdinov Radmir 11-108 <br>
 Задачи с крестиками ноликами
