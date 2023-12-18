@@ -2,14 +2,14 @@ import os
 from ultralytics import YOLO
 import cv2
 
-video_path = 'C:/Users/fero/Desktop/video.mov'
-model_path = 'D:/git/robots/runs/segment/train/weights/last.pt'
+video_path = 'C:/Users/fero/Desktop/video.mov'  
+model_path = 'D:/git/robots/runs/segment/train/weights/last.pt' 
 cap = cv2.VideoCapture(video_path)
 ret, frame = cap.read()
+H, W, _ = frame.shape
+out = cv2.VideoWriter('result.mp4', cv2.VideoWriter_fourcc(*'MP4V'), int(cap.get(cv2.CAP_PROP_FPS)), (W, H))
 model = YOLO(model_path)
-
 threshold = 0.5
-
 while ret:
     results = model(frame)[0]
 
@@ -21,11 +21,9 @@ while ret:
             cv2.putText(frame, results.names[int(class_id)].upper(), (int(x1), int(y1 - 10)),
                         cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 255, 0), 3, cv2.LINE_AA)
 
-    cv2.imshow('Real-time Detection', frame)
-    if cv2.waitKey(1) & 0xFF == ord('q'):  
-        break
-
+    out.write(frame)
     ret, frame = cap.read()
 
 cap.release()
+out.release()
 cv2.destroyAllWindows()
